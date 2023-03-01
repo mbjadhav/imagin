@@ -1,6 +1,8 @@
 import sht85
 import time
+import math
 
+from sht85 import *
 mps = 1 # accepted intervals 0.5, 1, 2, 4, 10 seconds
 rep = 'HIGH' # Repeatability: HIGH, MEDIUM, LOW
 
