@@ -9,6 +9,7 @@ https://docs.github.com/en/get-started/getting-started-with-git/caching-your-git
 
 https://github.com/cli/cli/blob/trunk/docs/install_linux.md
 
-Always a first steps 
-git pull 
+Always a first steps -
+
+**git pull **
 
