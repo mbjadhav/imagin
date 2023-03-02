@@ -1,4 +1,3 @@
-
 # Modules
 import smbus
 import time

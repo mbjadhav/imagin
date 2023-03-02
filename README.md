@@ -13,3 +13,17 @@ Always a first steps -
 
 *git pull*
 
+# I2C
+To check I2C bus -
+
+*sudo i2cdetect -y 1*
+
+*sudo i2cdetect -l*
+
+I2C bus for this setup -
+
+Relay Boards - 0x28
+
+SHT sensor - 0x44
+
+
