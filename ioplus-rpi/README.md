@@ -14,10 +14,9 @@ Enable Raspberry Pi I2C communication by opening a terminal and typing:
 ```
 Go to the *Interface Options* menu then *I2C* and enable the port.
 
-## Usage
+## Install ioplus
 
 ```bash
-~$ git clone https://github.com/SequentMicrosystems/ioplus-rpi.git
 ~$ cd ioplus-rpi/
 ~/ioplus-rpi$ sudo make install
 ```
@@ -27,15 +26,65 @@ Now you can access all the functions of the relays board through the command "io
 ~$ ioplus -h
 ```
 
-If you clone the repository any update can be made with the following commands:
+## Important commands
 
-```bash
-~$ cd ioplus-rpi/  
-~/ioplus-rpi$ git pull
-~/ioplus-rpi$ sudo make install
-``` 
+    Usage:		ioplus -v
+	Usage:		ioplus -h    Display command options list
+	Usage:		ioplus -h <param>   Display help for <param> command option
+	Usage:		ioplus -warranty
+	Usage:		ioplus -pinout
+	Usage:		ioplus -list
+	Usage:		ioplus <stack> board
+	Usage:		ioplus <stack> relwr <channel> <on/off>
+	Usage:		ioplus <stack> relwr <value>
+	Usage:		ioplus <stack> relrd <channel>
+	Usage:		ioplus <stack> relrd
+	Usage:		ioplus <stack> reltest
+	Usage:		ioplus <stack> gpiowr <channel> <on/off>
+	Usage:		ioplus <stack> gpiowr <value>
+	Usage:		ioplus <stack> gpiord <channel>
+	Usage:		ioplus <stack> gpiord
+	Usage:		ioplus <stack> gpiodirwr <channel> <out/in> 
+	Usage:		ioplus <stack> gpiodirwr <value>
+	Usage:		ioplus <stack> gpiodirrd <pin>
+	Usage:		ioplus <stack> gpiodirrd
+	Usage:		ioplus <stack> gpioedgewr <channel> <edges> 
+	Usage:		ioplus <stack> gpioedgerd <pin>
+	Usage:		ioplus <stack> gpiocntrd <channel>
+	Usage:		ioplus <stack> gpiocntrst <channel>
+	Usage:		ioplus <stack> optrd <channel>
+	Usage:		ioplus <stack> optrd
+	Usage:		ioplus <stack> optedgerd <pin>
+	Usage:		ioplus <stack> optedgewr <channel> <edges> 
+	Usage:		ioplus <stack> optcntrd <channel>
+	Usage:		ioplus <stack> optcntrst <channel>
+	Usage:		ioplus <stack> optencwr <channel> <0/1> 
+	Usage:		ioplus <stack> optencrd <channel>
+	Usage:		ioplus <stack> optcntencrd <channel>
+	Usage:		ioplus <stack> optcntencrst <channel>
+	Usage:		ioplus <stack> odrd <channel>
+	Usage:		ioplus <stack> odwr <channel> <value>
+	Usage:		ioplus <stack> dacrd <channel>
+	Usage:		ioplus <stack> dacwr <channel> <value>
+	Usage:		ioplus <stack> adcrd <channel>
+	Usage:		ioplus <stack> adccal <channel> <value>
+	Usage:		ioplus <stack> adccalrst <channel>
+	Usage:		ioplus <stack> daccal <channel> <value>
+	Usage:		ioplus <stack> daccalrst <channel>
+	Usage:		ioplus <stack> wdtr
+	Usage:		ioplus <stack> wdtpwr <val> 
+	Usage:		ioplus <stack> wdtprd 
+	Usage:		ioplus <stack> wdtipwr <val> 
+	Usage:		ioplus <stack> wdtiprd 
+	Usage:		ioplus <stack> wdtopwr <val> 
+	Usage:		ioplus <stack> wdtoprd 
+	Usage:		ioplus <stack> iotest
+	Usage:		ioplus <stack> iotest <test type>
+	Usage:		ioplus <stack> pwmfrd
+	Usage:		ioplus <stack> pwmfwr <value>
 
-## Commands
+
+## Command details
 
 	-v		Display the ioplus command version number
 	-h		Display the list of command options or one command option details
