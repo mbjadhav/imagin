@@ -1,10 +1,12 @@
-[![ioplus-rpi](res/sequent.jpg)](https://www.sequentmicrosystems.com)
+[![ioplus-rpi](res/sequent.jpg)]
 
 # ioplus-rpi
 
 Command Line, Python, and Node-Red for [Home Automation Stackable Card for Raspberry Pi](https://sequentmicrosystems.com/products/raspberry-pi-home-automation-card)
 
 ![IO-PLUS](res/IO-PLUS.jpg)
+
+![IO-PLUS-PINOUT](res/ioplusPinout.jpg)
 
 ## Setup
 

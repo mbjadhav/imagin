@@ -26,4 +26,11 @@ Relay Boards - 0x28
 
 SHT sensor - 0x44
 
+## These scripts will monitor the values 
 
+    Air Temperture, Humidity, and Dew Point using SHT sensor
+    Chuck Tempature using PT100 
+    Module Temprature using NTC on flex
+    Pressure switch 
+    Vaccum switch
+    Lid switch
