@@ -13,6 +13,10 @@ Always a first steps -
 
 *git pull*
 
+and end with - 
+
+*git push*
+
 # I2C
 To check I2C bus -
 
