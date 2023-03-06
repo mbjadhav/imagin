@@ -148,8 +148,11 @@ def dew_point(t,rh):
     t_range = 'water' if t >= 0 else 'ice'
     tn = dict(water=243.12, ice=272.62)[t_range]
     m = dict(water=17.62, ice=22.46)[t_range]
-
-    dew_p = tn * (math.log(rh / 100.0) + (m * t) / (tn + t))/ (m - math.log(rh / 100.0) - m * t / (tn + t))
+    # Doyeong - need to be corrected!! 
+    if rh<=0.0: dew_p = 0.0
+    else: dew_p = tn * (math.log(rh / 100.0) + (m * t) / (tn + t))/ (m - math.log(rh / 100.0) - m * t / (tn + t))
+    ##
+    #dew_p = tn * (math.log(rh / 100.0) + (m * t) / (tn + t))/ (m - math.log(rh / 100.0) - m * t / (tn + t))
     return round(dew_p,4)
 
 
