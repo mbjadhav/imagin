@@ -1,24 +1,19 @@
 ## Motor Pins
-Motor 0 - w-direction 
-
+    **Motor 0 - w-direction** 
     En0 14
     St0 15
     Dir0 18
     min0 4
     max0 17
     -----
-
-Motor 1 - y-direction
-
+    **Motor 1 - y-direction**
     En1 23
     St1 24
     Dir1 25
     min1 27
     max1 22
     -----
-
-Motor 2 - x-direction
-
+    **Motor 2 - x-direction**
     En2 16
     St2 20
     Dir2 21

@@ -136,6 +136,20 @@ class StepperHandler():
 			GPIO.output(self.StepY, GPIO.LOW)
 			sleep(self.Delay)
 
+		GPIO.output(self.DirectionW, self.CLOCKWISE)
+		while GPIO.input(self.Wmin)==1:
+			GPIO.output(self.StepW, GPIO.HIGH)
+			sleep(self.Delay)
+			GPIO.output(self.StepW, GPIO.LOW)
+			sleep(self.Delay)
+
+		GPIO.output(self.DirectionX, self.ANTI_CLOCKWISE)
+		while GPIO.input(self.Xmin)==1:
+			GPIO.output(self.StepX, GPIO.HIGH)
+			sleep(self.Delay)
+			GPIO.output(self.StepX, GPIO.LOW)
+			sleep(self.Delay)
+
 	def Step(self, enablePin, stepPin, directionPin, stepsToTake, direction = __CLOCKWISE):
 		
 		GPIO.setup(stepPin, GPIO.OUT)
@@ -170,7 +184,8 @@ stepperHandler = StepperHandler(0.005)
 stepperHandler.getReadyForScan()
 # Go forwards once
 #stepperHandler.Step(100)
-stepperHandler.Step(ENABLE_PIN, STEP_PIN, DIRECTION_PIN, 400, stepperHandler.ANTI_CLOCKWISE)
+stepperHandler.Step(ENABLE_PIN, STEP_PIN, DIRECTION_PIN, 1000, stepperHandler.ANTI_CLOCKWISE)
+sleep(0.01)
 stepperHandler.setParking()
 # Go backwards once
 #stepperHandler.Step(100, stepperHandler.ANTI_CLOCKWISE)
