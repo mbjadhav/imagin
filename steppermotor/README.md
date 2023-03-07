@@ -1,0 +1,23 @@
+**Motor Pins**
+    En0 14
+    St0 15
+    Dir0 18
+    min0 4
+    max0 17
+    -----
+    En1 23
+    St1 24
+    Dir1 25
+    min1 27
+    max1 22
+    -----
+    En2 16
+    St2 20
+    Dir2 21
+    min2    currently using pin GPIO 10 for min 
+    max2 10 not using max as pin gpio 10 is used for min
+
+*Direction To Origin*
+    x-motor: anti-clockwise
+    y-motor: anti-clockwise
+    w-motor: clockwise 

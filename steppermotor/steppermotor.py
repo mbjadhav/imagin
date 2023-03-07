@@ -20,6 +20,12 @@ St2 20
 Dir2 21
 min2    currently using pin GPIO 10 for min 
 max2 10 not using max as pin gpio 10 is used for min
+
+Direction To Origin -
+x-motor: anti-clockwise
+y-motor: anti-clockwise
+w-motor: clockwise 
+
 '''
 
 class StepperHandler():
@@ -27,14 +33,11 @@ class StepperHandler():
 	__CLOCKWISE = 1
 	__ANTI_CLOCKWISE = 0
 	
-	def __init__(self, enablePin, stepPin, directionPin, delay=0.208, stepsPerRevolution=200):
+	def __init__(self,  delay=0.208, stepsPerRevolution=200):
 		
 		# Configure instance
 		self.CLOCKWISE = self.__CLOCKWISE
 		self.ANTI_CLOCKWISE = self.__ANTI_CLOCKWISE
-		self.EnablePin = enablePin
-		self.StepPin = stepPin
-		self.DirectionPin = directionPin
 		self.Delay = delay
 		self.RevolutionSteps = stepsPerRevolution
 		self.CurrentDirection = self.CLOCKWISE
@@ -60,9 +63,6 @@ class StepperHandler():
 		# Setup gpio pins
 		GPIO.setmode(GPIO.BCM)
 		GPIO.setwarnings(False)
-		GPIO.setup(self.StepPin, GPIO.OUT)
-		GPIO.setup(self.EnablePin, GPIO.OUT)
-		GPIO.setup(self.DirectionPin, GPIO.OUT)
 
 		GPIO.setup(self.StepX, GPIO.OUT)
 		GPIO.setup(self.EnableX, GPIO.OUT)
@@ -120,37 +120,57 @@ class StepperHandler():
 		GPIO.output(self.EnableW, GPIO.HIGH)   #w-motor
 		GPIO.output(self.EnableY, GPIO.HIGH)	#y-motor 
 		GPIO.output(self.EnableX, GPIO.HIGH)	#x-motor
+	
+	def getReadyForScan(self):
+		print("Getting Ready for source scan")
 
-	def Step(self, stepsToTake, direction = __CLOCKWISE):
-		print("Step Pin: " + str(self.StepPin) + " Direction Pin: " + str(self.DirectionPin) + " Delay: " + str(self.Delay))
+		# Hard set motor pins for parking
+		GPIO.output(self.EnableW, GPIO.LOW)   #w-motor
+		GPIO.output(self.EnableY, GPIO.LOW)	#y-motor 
+		GPIO.output(self.EnableX, GPIO.LOW)	#x-motor
+
+		GPIO.output(self.DirectionY, self.CLOCKWISE)
+		while GPIO.input(self.Ymax)==1:
+			GPIO.output(self.StepY, GPIO.HIGH)
+			sleep(self.Delay)
+			GPIO.output(self.StepY, GPIO.LOW)
+			sleep(self.Delay)
+
+	def Step(self, enablePin, stepPin, directionPin, stepsToTake, direction = __CLOCKWISE):
+		
+		GPIO.setup(stepPin, GPIO.OUT)
+		GPIO.setup(enablePin, GPIO.OUT)
+		GPIO.setup(directionPin, GPIO.OUT)
+
+		print("Step Pin: " + str(stepPin) + " Direction Pin: " + str(directionPin) + " Delay: " + str(self.Delay))
 		print("Taking " + str(stepsToTake) + " steps.")
 
 		# Set the direction
-		GPIO.output(self.EnablePin, GPIO.LOW)
-		GPIO.output(self.DirectionPin, direction)
+		GPIO.output(enablePin, GPIO.LOW)
+		GPIO.output(directionPin, direction)
 
 		# Take requested number of steps
 		for x in range(stepsToTake):
 			print("Step " + str(x))
-			GPIO.output(self.StepPin, GPIO.HIGH)
+			GPIO.output(stepPin, GPIO.HIGH)
 			self.CurrentStep += 1
 			sleep(self.Delay)
-			GPIO.output(self.StepPin, GPIO.LOW)
+			GPIO.output(stepPin, GPIO.LOW)
 			sleep(self.Delay)
-			
-		GPIO.output(self.EnablePin, GPIO.HIGH)
 
+		#GPIO.output(senablePin, GPIO.HIGH)
 
 # Define pins
-ENABLE_PIN = 16
-STEP_PIN = 20
-DIRECTION_PIN = 21
+ENABLE_PIN = 14
+STEP_PIN = 15
+DIRECTION_PIN = 18
 
+stepperHandler = StepperHandler(0.005)
 # Create a new instance of our stepper class (note if you're just starting out with this you're probably better off using a delay of ~0.1)
-stepperHandler = StepperHandler(ENABLE_PIN, STEP_PIN, DIRECTION_PIN, 0.005)
-
+stepperHandler.getReadyForScan()
 # Go forwards once
 #stepperHandler.Step(100)
+stepperHandler.Step(ENABLE_PIN, STEP_PIN, DIRECTION_PIN, 400, stepperHandler.ANTI_CLOCKWISE)
 stepperHandler.setParking()
 # Go backwards once
 #stepperHandler.Step(100, stepperHandler.ANTI_CLOCKWISE)
