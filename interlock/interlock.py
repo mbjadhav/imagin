@@ -7,3 +7,9 @@ import serial
 import sys
 import time
 import math
+
+from relayboard import RelayBoard
+from sht85 import SHT85
+from steppermotor import StepperMotor
+
+

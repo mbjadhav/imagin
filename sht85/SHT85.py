@@ -69,7 +69,7 @@ def read_data():
     Readout of Measurement Results for Periodic Mode or ART feature
     Transmission  of  the  measurement  data  can  be  initiated  through  the  fetch  data  command. After the read out command fetch data has been issued, the data memory is cleared
     '''
-    data   = bus.read_i2c_block_data(SHT85_ADDR,SHT85_READ,6)
+    data   = bus.read_i2c_block_data(SHT85_ADDR,SHT85_READ,8)
     t_data = data[0] << 8 | data[1]
     h_data = data[3] << 8 | data[4]
     temp = -45. + 175. * t_data / (2**16-1.)
