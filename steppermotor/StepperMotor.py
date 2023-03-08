@@ -28,7 +28,7 @@ w-motor: clockwise
 
 '''
 
-class StepperHandler():
+class StepperMotor():
 	
 	__CLOCKWISE = 1
 	__ANTI_CLOCKWISE = 0
@@ -70,7 +70,7 @@ class StepperHandler():
 		GPIO.setup(self.MotorChannels, GPIO.OUT)
 		GPIO.setup(self.MotorLimitChannels, GPIO.IN)
 
-	def setParking(self):
+	def set_parking(self):
 		print("Parking radiation source in source holder")
 
 		# Hard set motor pins for parking
@@ -110,7 +110,7 @@ class StepperHandler():
 		GPIO.output(self.EnableY, GPIO.HIGH)	#y-motor 
 		GPIO.output(self.EnableX, GPIO.HIGH)	#x-motor
 	
-	def getReadyForScan(self):
+	def get_ready(self):
 		print("Getting Ready for source scan")
 
 		# Hard set motor pins for parking
@@ -139,7 +139,7 @@ class StepperHandler():
 			GPIO.output(self.StepX, GPIO.LOW)
 			sleep(self.Delay)
 
-	def Step(self, enablePin, stepPin, directionPin, stepsToTake, direction = __CLOCKWISE):
+	def step(self, enablePin, stepPin, directionPin, stepsToTake, direction = __CLOCKWISE):
 		
 		GPIO.setup(stepPin, GPIO.OUT)
 		GPIO.setup(enablePin, GPIO.OUT)
@@ -168,13 +168,13 @@ ENABLE_PIN = 14
 STEP_PIN = 15
 DIRECTION_PIN = 18
 
-stepperHandler = StepperHandler(0.001)
+stepperHandler = StepperMotor(0.001)
 # Create a new instance of our stepper class (note if you're just starting out with this you're probably better off using a delay of ~0.1)
-stepperHandler.getReadyForScan()
+stepperHandler.get_ready()
 # Go forwards once
 #stepperHandler.Step(100)
-stepperHandler.Step(ENABLE_PIN, STEP_PIN, DIRECTION_PIN, 900, stepperHandler.ANTI_CLOCKWISE)
+stepperHandler.step(ENABLE_PIN, STEP_PIN, DIRECTION_PIN, 900, stepperHandler.ANTI_CLOCKWISE)
 sleep(0.01)
-stepperHandler.setParking()
+stepperHandler.set_parking()
 # Go backwards once
 #stepperHandler.Step(100, stepperHandler.ANTI_CLOCKWISE)

@@ -1,5 +1,5 @@
 # IMAGIN
-Itkpix Module Automated testinG INfrastructure
+**I**tkpix **M**odule **A**utomated testin**G** **IN**frastructure
 
 This project will have all the required scripts for the automatization of testing setup 
 

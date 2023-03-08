@@ -98,7 +98,7 @@ class RelayBoard():
 
     #Temperature calculation for the chuck (PT102)
     #-------------------------------------------------------------------------------------
-    def getTemperature(self, channel): #Ch1 for chuck PT102 and ch2 for module NTC
+    def get_temperature(self, channel): #Ch1 for chuck PT102 and ch2 for module NTC
         Vin = 3.3
         Rref = 1760
         BetaValue = 3892
