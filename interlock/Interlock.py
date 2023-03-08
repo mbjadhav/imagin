@@ -12,4 +12,7 @@ from relayboard import RelayBoard
 from sht85 import SHT85
 from steppermotor import StepperMotor
 
+class Interlock():
+    def __init__():
+
 

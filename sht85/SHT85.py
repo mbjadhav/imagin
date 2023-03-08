@@ -69,7 +69,7 @@ def read_data():
     Readout of Measurement Results for Periodic Mode or ART feature
     Transmission  of  the  measurement  data  can  be  initiated  through  the  fetch  data  command. After the read out command fetch data has been issued, the data memory is cleared
     '''
-    data   = bus.read_i2c_block_data(SHT85_ADDR,SHT85_READ,8)
+    data   = bus.read_i2c_block_data(SHT85_ADDR,SHT85_READ,6)
     t_data = data[0] << 8 | data[1]
     h_data = data[3] << 8 | data[4]
     temp = -45. + 175. * t_data / (2**16-1.)
@@ -149,10 +149,10 @@ def dew_point(t,rh):
     tn = dict(water=243.12, ice=272.62)[t_range]
     m = dict(water=17.62, ice=22.46)[t_range]
     # Doyeong - need to be corrected!! 
-    if rh<=0.0: dew_p = 0.0
-    else: dew_p = tn * (math.log(rh / 100.0) + (m * t) / (tn + t))/ (m - math.log(rh / 100.0) - m * t / (tn + t))
-    ##
-    #dew_p = tn * (math.log(rh / 100.0) + (m * t) / (tn + t))/ (m - math.log(rh / 100.0) - m * t / (tn + t))
+    #if rh<=0.0: dew_p = 0.0
+    #else: dew_p = tn * (math.log(rh / 100.0) + (m * t) / (tn + t))/ (m - math.log(rh / 100.0) - m * t / (tn + t))
+    if rh<=0.0: rh = 0.001
+    dew_p = tn * (math.log(rh / 100.0) + (m * t) / (tn + t))/ (m - math.log(rh / 100.0) - m * t / (tn + t))
     return round(dew_p,4)
 
 
