@@ -33,7 +33,7 @@ class StepperHandler():
 	__CLOCKWISE = 1
 	__ANTI_CLOCKWISE = 0
 	
-	def __init__(self,  delay=0.208, stepsPerRevolution=200):
+	def __init__(self,  delay=0.208, stepsPerRevolution=20):
 		
 		# Configure instance
 		self.CLOCKWISE = self.__CLOCKWISE
@@ -60,26 +60,15 @@ class StepperHandler():
 		self.Wmin = 4
 		self.Wmax = 17
 
+		self.MotorChannels = (self.EnableX, self.StepX, self.DirectionX, self.EnableY, self.StepY, self.DirectionY,self.EnableW, self.StepW, self.DirectionW)
+		self.MotorLimitChannels = (self.Xmin, self.Xmax, self.Ymin, self.Ymax, self.Wmin, self.Wmax)
+
 		# Setup gpio pins
 		GPIO.setmode(GPIO.BCM)
 		GPIO.setwarnings(False)
 
-		GPIO.setup(self.StepX, GPIO.OUT)
-		GPIO.setup(self.EnableX, GPIO.OUT)
-		GPIO.setup(self.DirectionX, GPIO.OUT)
-		GPIO.setup(self.StepY, GPIO.OUT)
-		GPIO.setup(self.EnableY, GPIO.OUT)
-		GPIO.setup(self.DirectionY, GPIO.OUT)
-		GPIO.setup(self.StepW, GPIO.OUT)
-		GPIO.setup(self.EnableW, GPIO.OUT)
-		GPIO.setup(self.DirectionW, GPIO.OUT)
-
-		GPIO.setup(self.Xmin, GPIO.IN)
-		GPIO.setup(self.Xmax, GPIO.IN)
-		GPIO.setup(self.Ymin, GPIO.IN)
-		GPIO.setup(self.Ymax, GPIO.IN)
-		GPIO.setup(self.Wmin, GPIO.IN)
-		GPIO.setup(self.Wmax, GPIO.IN)
+		GPIO.setup(self.MotorChannels, GPIO.OUT)
+		GPIO.setup(self.MotorLimitChannels, GPIO.IN)
 
 	def setParking(self):
 		print("Parking radiation source in source holder")
@@ -179,12 +168,12 @@ ENABLE_PIN = 14
 STEP_PIN = 15
 DIRECTION_PIN = 18
 
-stepperHandler = StepperHandler(0.005)
+stepperHandler = StepperHandler(0.001)
 # Create a new instance of our stepper class (note if you're just starting out with this you're probably better off using a delay of ~0.1)
 stepperHandler.getReadyForScan()
 # Go forwards once
 #stepperHandler.Step(100)
-stepperHandler.Step(ENABLE_PIN, STEP_PIN, DIRECTION_PIN, 1000, stepperHandler.ANTI_CLOCKWISE)
+stepperHandler.Step(ENABLE_PIN, STEP_PIN, DIRECTION_PIN, 900, stepperHandler.ANTI_CLOCKWISE)
 sleep(0.01)
 stepperHandler.setParking()
 # Go backwards once
