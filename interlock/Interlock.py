@@ -45,6 +45,20 @@ class Interlock():
         pressureswitch = RelayBoard.optrd(8)
         return pressureswitch
     
+    def set_gled(self, gled=0):
+        RelayBoard.relwr(5, gled)
+
+    def set_yled(self, yled=0):
+        RelayBoard.relwr(7, yled)
+
+    def set_rled(self, rled=0):
+        RelayBoard.relwr(8, rled)
+
+    def set_alarm(self, alarm=0):
+        RelayBoard.relwr(6, alarm)
+
+    
+
     
 
 
