@@ -1,16 +1,6 @@
-import RPi.GPIO as GPIO
-import os
-import argparse
-import subprocess
-import re
-import serial
-import sys
-import time
-import math
-
 from relayboard import RelayBoard
 from sht85 import SHT85
-from steppermotor import StepperMotor
+#from steppermotor import StepperMotor
 
 class Interlock():
     def __init__(self, interlock = 0):
@@ -45,22 +35,32 @@ class Interlock():
         pressureswitch = RelayBoard.optrd(8)
         return pressureswitch
     
-    def set_gled(self, gled=0):
+    def set_gled(self, gled=0):  #1 for ON
         RelayBoard.relwr(5, gled)
 
-    def set_yled(self, yled=0):
+    def set_yled(self, yled=0):  #1 for ON
         RelayBoard.relwr(7, yled)
 
-    def set_rled(self, rled=0):
+    def set_rled(self, rled=0):  #1 for ON
         RelayBoard.relwr(8, rled)
 
-    def set_alarm(self, alarm=0):
+    def set_alarm(self, alarm=0):  #1 for ON
         RelayBoard.relwr(6, alarm)
+        
+    def close_chillervalve(self, chiller=0):  #1 for OFF
+        RelayBoard.relwr(1, chiller)   
 
-    
+    def enable_hv(self, enhv=0):  #1 for OFF
+        RelayBoard.relwr(2, enhv)
 
-    
+    def enable_lv(self, enlv=0):  #1 for OFF
+        RelayBoard.relwr(3, enlv)  
 
+    def switch_pelitier(self, swpelt=0):  #0 for Positive & 1 for Negative temperature
+        RelayBoard.relwr(4, swpelt) 
+
+    def power_pelitier(self, powerpelt=0):  #1 for ON
+        RelayBoard.odwr(1, powerpelt) 
 
 
 
