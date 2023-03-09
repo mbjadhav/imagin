@@ -1,65 +1,80 @@
-from relayboard import RelayBoard
+from relayboard.RelayBoard import RelayBoard
 from sht85 import SHT85
 #from steppermotor import StepperMotor
 
 class Interlock():
     def __init__(self, interlock = 0):
-        self.Interlock = interlock
+        self.interlock = interlock
 
-    def check_interlock(self):
-        print("okay")
+    def check_interlock():
+        allokay = 1
+        print("hello")
+        return allokay
 
-    def get_sht85value(self, temp=0, rh=0, dp=0):
+    def read_sht85value():
         temp, rh = SHT85.read_data()
         dp = SHT85.dew_point(temp, rh)
-        sht85values = (temp, rh, dp)    
+        sht85values = (temp, rh, dp) 
         return sht85values
 
-    def get_tempchuck(self, tempchuck=0):
+    def read_tempchuck():
         tempchuck = RelayBoard.get_temperature(1)
         return tempchuck
 
-    def get_tempmodule(self, tempmodule=0):
+    def read_tempmodule():
         tempmodule = RelayBoard.get_temperature(2)
         return tempmodule
 
-    def get_lidswitch(self, lidswitch=0):
+    def read_lidswitch():
         lidswitch = RelayBoard.optrd(6)
-        return lidswitch
+        return round(lidswitch,4)
     
-    def get_vacuumswitch(self, vacuumswitch=1):
+    def read_vacuumswitch():
         vacuumswitch = RelayBoard.optrd(7)
-        return vacuumswitch
+        return round(vacuumswitch,4)
 
-    def get_pressureswitch(self, pressureswitch=1):
+    def read_pressureswitch():
         pressureswitch = RelayBoard.optrd(8)
-        return pressureswitch
+        return round(pressureswitch,4)
     
-    def set_gled(self, gled=0):  #1 for ON
+    def read_switches():
+        lidswitch = Interlock.read_lidswitch()
+        vacuumswitch = Interlock.read_vacuumswitch()
+        pressureswitch = Interlock.read_pressureswitch()
+        switches = (lidswitch, vacuumswitch, pressureswitch)
+        return switches
+
+    def reset_alarms():
+        RelayBoard.relwr(5, 0)
+        RelayBoard.relwr(6, 0)
+        RelayBoard.relwr(7, 0)
+        RelayBoard.relwr(8, 0)
+    
+    def set_gled(gled=0):  #1 for ON
         RelayBoard.relwr(5, gled)
 
-    def set_yled(self, yled=0):  #1 for ON
+    def set_yled(yled=0):  #1 for ON
         RelayBoard.relwr(7, yled)
 
-    def set_rled(self, rled=0):  #1 for ON
+    def set_rled(rled=0):  #1 for ON
         RelayBoard.relwr(8, rled)
 
-    def set_alarm(self, alarm=0):  #1 for ON
+    def set_alarm(alarm=0):  #1 for ON
         RelayBoard.relwr(6, alarm)
         
-    def close_chillervalve(self, chiller=0):  #1 for OFF
+    def close_chillervalve(chiller=0):  #1 for OFF
         RelayBoard.relwr(1, chiller)   
 
-    def enable_hv(self, enhv=0):  #1 for OFF
+    def enable_hv(enhv=0):  #1 for OFF
         RelayBoard.relwr(2, enhv)
 
-    def enable_lv(self, enlv=0):  #1 for OFF
+    def enable_lv(enlv=0):  #1 for OFF
         RelayBoard.relwr(3, enlv)  
 
-    def switch_pelitier(self, swpelt=0):  #0 for Positive & 1 for Negative temperature
+    def switch_pelitier(swpelt=0):  #0 for Positive & 1 for Negative temperature
         RelayBoard.relwr(4, swpelt) 
 
-    def power_pelitier(self, powerpelt=0):  #1 for ON
+    def power_pelitier(powerpelt=0):  #1 for ON
         RelayBoard.odwr(1, powerpelt) 
 
 
