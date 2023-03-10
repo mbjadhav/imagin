@@ -11,6 +11,12 @@ rep = 'HIGH' # Repeatability: HIGH, MEDIUM, LOW
 #print ('serial number = ', sht85.sn())
 time.sleep(0.5e-3)
 
+fname_IntState = time.strftime("InterlockStatusData_%Y%m%d%H%M%S.txt")
+fInterlock=open(fname_IntState, "a+")
+fInterlock.write(f"EventTime\tAirTemp\tRH\tDP\tChuckTemp\tModTemp\tsLid\tsVacuu\tsPressure\n")
+fInterlock.close()
+print(f"EventTime\tAirTemp\tRH\tDP\tChuckTemp\tModTemp\tsLid\tsVacuu\tsPressure\n")
+
 SHT85.periodic(mps,rep)
 #Interlock.check_interlock()
 #RelayBoard.relwr(5, 1)
@@ -25,16 +31,12 @@ try:
         #tmodule = Interlock.read_tempmodule()
         tmodule=0
         slid, svacuum, spressure = Interlock.read_switches()
+        tevent = time.strftime("%Y%m%d%H%M%S")
 
-        print('Time =', time.strftime("%Y%m%d%H%M%S"))
-        print ('Temperature =', t)
-        print ('Relative Humidity =', rh)
-        print ('Dew Point =', dp)
-        print ('Chuck Temperature =', tchuck)
-        print ('Module Temperature =', tmodule)
-        print ('Lid Switch =', slid)
-        print ('Vacuum switch =', svacuum)
-        print ('Pressure Switch =', spressure)
+        print(f"{tevent}\t{t}\t{rh}\t{dp}\t{tchuck}\t{tmodule}\t{slid}\t{svacuum}\t{spressure}\n")
+        fInterlock=open(fname_IntState, "a+")
+        fInterlock.write(f"{tevent}\t{t}\t{rh}\t{dp}\t{tchuck}\t{tmodule}\t{slid}\t{svacuum}\t{spressure}\n")
+        fInterlock.close()
         time.sleep(1)
 
 except (KeyboardInterrupt, SystemExit): #when you press ctrl+c
