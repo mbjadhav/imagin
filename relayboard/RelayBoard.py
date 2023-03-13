@@ -110,5 +110,5 @@ class RelayBoard():
         Vout_ntc = RelayBoard.adcrd(channel)
         Rntc = Rref*(Vout_ntc/(Vin-Vout_ntc))
         Tntc = 1/(math.log10(Rntc/R25)/BetaValue+1/T25)- Tk2c
-        return Tntc
+        return round(Tntc, 2)
 

@@ -27,15 +27,16 @@ class Interlock():
 
     def read_lidswitch():
         lidswitch = RelayBoard.optrd(6)
-        return round(lidswitch,4)
+        lidswitch = abs(lidswitch-1)
+        return lidswitch
     
     def read_vacuumswitch():
         vacuumswitch = RelayBoard.optrd(7)
-        return round(vacuumswitch,4)
+        return vacuumswitch
 
     def read_pressureswitch():
         pressureswitch = RelayBoard.optrd(8)
-        return round(pressureswitch,4)
+        return pressureswitch
     
     def read_switches():
         lidswitch = Interlock.read_lidswitch()

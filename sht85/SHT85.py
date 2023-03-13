@@ -74,7 +74,7 @@ def read_data():
     h_data = data[3] << 8 | data[4]
     temp = -45. + 175. * t_data / (2**16-1.)
     relh = 100. * h_data / (2**16-1.)
-    return round(temp,4), round(relh,4)
+    return round(temp,2), round(relh,2)
 
 def stop():
     '''
@@ -153,7 +153,7 @@ def dew_point(t,rh):
     #else: dew_p = tn * (math.log(rh / 100.0) + (m * t) / (tn + t))/ (m - math.log(rh / 100.0) - m * t / (tn + t))
     if rh<=0.0: rh = 0.001
     dew_p = tn * (math.log(rh / 100.0) + (m * t) / (tn + t))/ (m - math.log(rh / 100.0) - m * t / (tn + t))
-    return round(dew_p,4)
+    return round(dew_p,2)
 
 
 
