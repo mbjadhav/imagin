@@ -28,9 +28,9 @@ print ("received data:", data)
 '''
 fname_IntState = time.strftime("InterlockStatusData_%Y%m%d%H%M%S.txt")
 fInterlock=open(fname_IntState, "a+")
-fInterlock.write(f"EventTime\tAirTemp\tRH\tDP\tChuckTemp\tModTemp\tsLid\tsVacuu\tsPressure\n")
+fInterlock.write(f"EventTime\taTemp\tRH\tDP\tcTemp\tmTemp\tsLid\tsVacuu\tsPressure\n")
 fInterlock.close()
-print(f"EventTime\tAirTemp\tRH\tDP\tChuckTemp\tModTemp\tsLid\tsVacuu\tsPressure\n")
+print(f"EventTime\taTemp\tRH\tDP\tcTemp\tmTemp\tsLid\tsVacuu\tsPressure\n")
 
 SHT85.periodic(mps,rep)
 #Interlock.check_interlock()
