@@ -1,6 +1,8 @@
-import sht85
+#import sht85
 import time
 import math
+import serial
+import socket
 
 from sht85 import SHT85
 from interlock.Interlock import Interlock
@@ -10,7 +12,20 @@ rep = 'HIGH' # Repeatability: HIGH, MEDIUM, LOW
 
 #print ('serial number = ', sht85.sn())
 time.sleep(0.5e-3)
+'''
+TCP_IP = '192.168.0.218'
+TCP_PORT = 5005
+BUFFER_SIZE = 1024
+MESSAGE = "Hello, World!"
 
+s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+s.connect((TCP_IP, TCP_PORT))
+s.send(MESSAGE)
+data = s.recv(BUFFER_SIZE)
+s.close()
+
+print ("received data:", data)
+'''
 fname_IntState = time.strftime("InterlockStatusData_%Y%m%d%H%M%S.txt")
 fInterlock=open(fname_IntState, "a+")
 fInterlock.write(f"EventTime\tAirTemp\tRH\tDP\tChuckTemp\tModTemp\tsLid\tsVacuu\tsPressure\n")
