@@ -7,15 +7,15 @@ from pyvisa import constants
 from MPODControl import MPODControl
 
 sys.path.append('../')
-from HMPControl.HMPControlTools import *
-from Chiller.chiller_cf41 import *
+from hmpcontrol.HMPControlTools import *
+from chiller.chiller_cf41 import *
 
 #from ControlArduino import *
 
 if __name__ == "__main__":
     mpod = MPODControl()
-    channel_LV = 0
-    channel_HV = 311
+    channel_LV = 4
+    channel_HV = 301
 
     LV_voltage = 2.4
     LV_current = 6 
@@ -28,8 +28,8 @@ if __name__ == "__main__":
     LV_voltage = mpod.read_senseVoltage(channel_LV) #V
     LV_current = (mpod.read_measCurrent(channel_LV)) #mA
 
-    #print(LV_voltage)
-    #print(LV_current)
+    print(LV_voltage)
+    print(LV_current)
 
     device = connectRohdeS()
     setVoltCurr(device, 2, 2, 4.6)

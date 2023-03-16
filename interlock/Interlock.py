@@ -46,21 +46,21 @@ class Interlock():
         return switches
 
     def reset_alarms():
-        RelayBoard.relwr(5, 0)
-        RelayBoard.relwr(6, 0)
-        RelayBoard.relwr(7, 0)
-        RelayBoard.relwr(8, 0)
+        RelayBoard.relwr(5, 1)
+        RelayBoard.relwr(6, 1)
+        RelayBoard.relwr(7, 1)
+        RelayBoard.relwr(8, 1)
     
-    def set_gled(gled=0):  #1 for ON
+    def set_gled(gled=0):  #0 for ON
         RelayBoard.relwr(5, gled)
 
-    def set_yled(yled=0):  #1 for ON
+    def set_yled(yled=0):  #0 for ON
         RelayBoard.relwr(7, yled)
 
-    def set_rled(rled=0):  #1 for ON
+    def set_rled(rled=0):  #0for ON
         RelayBoard.relwr(8, rled)
 
-    def set_alarm(alarm=0):  #1 for ON
+    def set_alarm(alarm=0):  #0 for ON
         RelayBoard.relwr(6, alarm)
         
     def close_chillervalve(chiller=0):  #1 for OFF

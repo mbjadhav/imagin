@@ -26,7 +26,9 @@ s.close()
 
 print ("received data:", data)
 '''
-fname_IntState = time.strftime("InterlockStatusData_%Y%m%d%H%M%S.txt")
+Interlock.reset_alarms()
+
+fname_IntState = time.strftime("interlock_data/InterlockStatusData_%Y%m%d%H%M%S.txt")
 fInterlock=open(fname_IntState, "a+")
 fInterlock.write(f"EventTime\taTemp\tRH\tDP\tcTemp\tmTemp\tsLid\tsVacuu\tsPressure\n")
 fInterlock.close()
@@ -36,7 +38,7 @@ SHT85.periodic(mps,rep)
 #Interlock.check_interlock()
 #RelayBoard.relwr(5, 1)
 
-Interlock.set_gled(1)
+Interlock.set_gled()
 
 time.sleep(1)
 try:
