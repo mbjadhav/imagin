@@ -7,6 +7,7 @@ import re
 import subprocess
 import sys
 import sht85
+import socket
 
 from mpodcontrol.MPODControl import MPODControl
 from hmpcontrol.HMPControlTools import * 
