@@ -174,7 +174,7 @@ stepperHandler.get_ready()
 # Go forwards once
 #stepperHandler.Step(100)
 stepperHandler.step(ENABLE_PIN, STEP_PIN, DIRECTION_PIN, 900, stepperHandler.ANTI_CLOCKWISE)
-sleep(0.01)
+sleep(0.5)
 stepperHandler.set_parking()
 # Go backwards once
 #stepperHandler.Step(100, stepperHandler.ANTI_CLOCKWISE)
