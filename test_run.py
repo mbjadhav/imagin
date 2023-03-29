@@ -37,6 +37,7 @@ SHT85.periodic(mps,rep)
 IsOkay = 1
 count_stable = 0
 count_fails = 0
+afterfail_stable = 0
 #Interlock.set_gled()
 time.sleep(1)
 try:
@@ -69,7 +70,7 @@ try:
                     Interlock.set_yled(1)
                     Interlock.set_gled(1)
                     Interlock.set_rled()
-                    if count_fails == 6 or count_fails%200: Interlock.set_alarm()
+                    if count_fails < 21 or count_fails%60 == 0: Interlock.set_alarm()
                     else: Interlock.set_alarm(1)
                     Interlock.enable_hv(1)
                     Interlock.enable_lv(1)
@@ -83,6 +84,10 @@ try:
                 Interlock.set_alarm(1)
             else:
                 Interlock.set_yled()
+                if Interlock.get_rled() == 0:
+                    afterfail_stable += 1
+                    if afterfail_stable%60 == 0: Interlock.set_alarm()
+                    else: Interlock.set_alarm(1)               
         else:
             Interlock.set_yled()
             Interlock.set_gled(1)

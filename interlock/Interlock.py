@@ -69,13 +69,13 @@ class Interlock():
         return RelayBoard.relrd()
 
     def get_yled():  #0 for ON
-        return RelayBoard.relwr(7)
+        return RelayBoard.relrd(7)
 
     def get_rled():  #0for ON
-        return RelayBoard.relwr(8)
+        return RelayBoard.relrd(8)
 
     def get_alarm():  #0 for ON
-        return RelayBoard.relwr(6)
+        return RelayBoard.relrd(6)
                          
     def close_chillervalve(chiller=0):  #1 for OFF
         RelayBoard.relwr(1, chiller)   
