@@ -80,18 +80,26 @@ class Interlock():
     def close_chillervalve(chiller=0):  #1 for OFF
         RelayBoard.relwr(1, chiller)   
 
-    def enable_hv(enhv=1):  #1 for ON
-        RelayBoard.relwr(2, enhv)
+    def enable_hv():  #1 for ON
+        RelayBoard.relwr(2, 1)
 
-    def enable_lv(enlv=1):  #1 for ON
-        RelayBoard.relwr(3, enlv)  
+    def disable_hv():  #1 for ON
+        RelayBoard.relwr(2, 0)
+
+    def enable_lv():  #1 for ON
+        RelayBoard.relwr(3, 1)  
+
+    def disable_lv():  #1 for ON
+        RelayBoard.relwr(3, 0)  
 
     def switch_peltier(swpelt=0):  #0 for Positive & 1 for Negative temperature
         RelayBoard.relwr(4, swpelt) 
 
-    def power_peltier(powerpelt=100):  #100 for ON
-        RelayBoard.odwr(2, powerpelt) 
+    def powerON_peltier():  #100 for ON
+        RelayBoard.odwr(2, 100) 
 
+    def powerOFF_peltier():  #100 for ON
+        RelayBoard.odwr(2, 0)
 
 
 

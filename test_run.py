@@ -38,6 +38,7 @@ IsOkay = 1
 count_stable = 0
 count_fails = 0
 afterfail_stable = 0
+switchon_ps_once = 0
 #Interlock.set_gled()
 time.sleep(1)
 try:
@@ -49,19 +50,23 @@ try:
         slid, svacuum, spressure = Interlock.read_switches()
         tevent = time.strftime("%Y%m%d%H%M%S")
 
-        if slid == 1 and svacuum == 1 and spressure == 1 and abs(tchuck - 15)<10 and abs(rh-0)<0.5 and abs(tmodule-20)<10 and IsOkay:
+        if slid == 1 and svacuum == 1 and spressure == 1 and abs(tchuck)<60 and abs(rh-0)<0.5 and tmodule<45 and IsOkay:
             Interlock.set_gled()
             count_stable += 1
             if count_fails > 0:
                 count_fails = 0
             if count_fails > 10:
                 Interlock.set_yled()
-        elif count_stable>10:
-            Interlock.switch_peltier(1)
-            Interlock.power_peltier()
-            Interlock.enable_lv()
-            Interlock.enable_hv()
-            if slid == 0 or svacuum == 0 or spressure == 0 or abs(tchuck - 15)>10 or abs(rh-0)>0.5 or abs(tmodule-20)>10:
+            if switchon_ps_once == 0 and count_stable > 20:
+                Interlock.switch_peltier()
+                Interlock.powerON_peltier()
+                Interlock.enable_lv()
+                Interlock.enable_hv()
+                switchon_ps_once = 1
+            #if count_stable == 100:
+            #    Interlock.switch_peltier()
+        elif count_stable>20:
+            if slid == 0 or svacuum == 0 or spressure == 0 or abs(tchuck)>60 or abs(rh-0)>0.5 or tmodule<45:
                 count_fails += 1
                 if count_fails < 6:
                     Interlock.set_yled()
@@ -72,10 +77,11 @@ try:
                     Interlock.set_rled()
                     if count_fails < 21 or count_fails%60 == 0: Interlock.set_alarm()
                     else: Interlock.set_alarm(1)
-                    Interlock.enable_hv(1)
-                    Interlock.enable_lv(1)
-                    Interlock.power_peltier(0)
-                    IsOkay = 0
+                    if count_fails == 6:
+                        Interlock.disable_hv()
+                        Interlock.disable_lv()
+                        Interlock.powerOFF_peltier()
+                        IsOkay = 0
             elif IsOkay:
                 count_fails = 0
                 Interlock.set_gled()

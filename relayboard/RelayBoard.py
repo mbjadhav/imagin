@@ -101,14 +101,26 @@ class RelayBoard():
     #Temperature calculation for the chuck (PT102)
     #-------------------------------------------------------------------------------------
     def get_temperature(channel): #Ch1 for chuck PT102 and ch2 for module NTC
-        Vin = 3.3
-        Rref = 1760
-        BetaValue = 3892
-        R25 = 1000
+        Vin = 3.303
+        Rref = 0
+        BetaValue = 0
+        R25 = 00
+        if channel == 1: #PT102J2
+            Rref = 1764.71
+            BetaValue = 3892
+            R25 = 1000
+        elif channel == 2: #NTC
+            Rref = 15000
+            BetaValue = 3380
+            R25 = 10000
         T25 = 298.15
-        Tk2c = 275.15
-        Vout_ntc = RelayBoard.adcrd(channel)
-        Rntc = Rref*(Vout_ntc/(Vin-Vout_ntc))
-        Tntc = 1/(math.log10(Rntc/R25)/BetaValue+1/T25)- Tk2c
-        return round(Tntc, 2)
-
+        Tk2c = 273.15
+        Vout = RelayBoard.adcrd(channel)
+        if Vout == 0: 
+            Vout = 0.001
+        if Vout >= 3.295:
+            Tsense = 1000.0
+        else:
+            Rsense = Rref*(Vout/(Vin-Vout))
+            Tsense = 1/(math.log(Rsense/R25)/BetaValue+1/T25)- Tk2c
+        return round(Tsense, 2)
