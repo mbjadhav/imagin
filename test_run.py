@@ -14,7 +14,7 @@ rep = 'HIGH' # Repeatability: HIGH, MEDIUM, LOW
 time.sleep(0.5e-3)
 
 s = socket.socket()
-TCP_IP = '192.168.0.218'
+TCP_IP = '192.168.0.216'
 TCP_PORT = 12399
 BUFFER_SIZE = 1024
 #s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -49,8 +49,9 @@ try:
         #tmodule=0
         slid, svacuum, spressure = Interlock.read_switches()
         tevent = time.strftime("%Y%m%d%H%M%S")
+        #Interlock.powerON_peltier()
 
-        if slid == 1 and svacuum == 1 and spressure == 1 and abs(tchuck)<60 and abs(rh-0)<0.5 and tmodule<45 and IsOkay:
+        if slid == 1 and svacuum == 1 and spressure == 1 and abs(tchuck)<60 and abs(rh-0)<2 and tmodule<70 and IsOkay:
             Interlock.set_gled()
             count_stable += 1
             if count_fails > 0:
@@ -58,15 +59,17 @@ try:
             if count_fails > 10:
                 Interlock.set_yled()
             if switchon_ps_once == 0 and count_stable > 20:
-                Interlock.switch_peltier()
+                Interlock.switch_peltier(1)   # 0 for positive (default) and 1 for negative 
                 Interlock.powerON_peltier()
                 Interlock.enable_lv()
                 Interlock.enable_hv()
                 switchon_ps_once = 1
+            if count_stable == 200:
+                Interlock.switch_peltier()
             #if count_stable == 100:
             #    Interlock.switch_peltier()
         elif count_stable>20:
-            if slid == 0 or svacuum == 0 or spressure == 0 or abs(tchuck)>60 or abs(rh-0)>0.5 or tmodule<45:
+            if slid == 0 or svacuum == 0 or spressure == 0 or abs(tchuck)>60 or abs(rh-0)>2 or tmodule>70:
                 count_fails += 1
                 if count_fails < 6:
                     Interlock.set_yled()
