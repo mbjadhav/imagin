@@ -13,6 +13,10 @@ def peltier_on_off(device, Nch, on_off):
     channel(device, Nch)
     device.write("OUTP {}".format(on_off))
 
+def hmp_on_off(device, Nch, on_off):
+    channel(device, Nch)
+    device.write("OUTP {}".format(on_off))
+
 def setVolt(device, voltage):
     device.write("APPL {}".format(voltage))
 
@@ -45,5 +49,5 @@ def measVoltCurr(device, Nch):
 def connectRohdeS():
     rm = pyvisa.ResourceManager("@py")
     #print(rm.list_resources())
-    device = rm.open_resource("ASRL/dev/ttyACM0::INSTR",baud_rate=9600, data_bits=8, parity=constants.Parity.none, stop_bits=constants.StopBits.one, write_termination="\n",read_termination="\n")
+    device = rm.open_resource("ASRL/dev/ttyACM1::INSTR",baud_rate=9600, data_bits=8, parity=constants.Parity.none, stop_bits=constants.StopBits.one, write_termination="\n",read_termination="\n")
     return(device)

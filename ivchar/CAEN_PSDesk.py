@@ -3,6 +3,7 @@ import time
 import sys
 import signal
 import os
+from pyvisa import constants
 
 #from Color_Printing import ColorFormat
 import general
@@ -16,22 +17,15 @@ class SimpleCaenPowerSupply(object):
         rm = visa.ResourceManager("@py")
         resources = rm.list_resources()
         print(resources)
-        self.inst = rm.open_resource("ASRL/dev/ttyACM0::INSTR")
+        self.inst = rm.open_resource("ASRL/dev/ttyACM2::INSTR",baud_rate=9600, data_bits=8, parity=constants.Parity.none, stop_bits=constants.StopBits.one, write_termination="\n",read_termination="\n")
         #self.inst.write_termination("\r\n")
         #self.inst.read_termination("\r\n")
         idn = self.inst.query("$BD:"+xx+",CMD:MON,PAR:BDNAME")
         print(idn)
-        remote_status = self.check_remote_status()
-        print(remote_status)
         if "DT1471ET" or "DT5519E" in idn:
           print("\nConnected to CAEN Power Supply.\n")
         else:
           print("Power supply is not available.")
-        print("Checking remote status...")
-        if "LOCAL" in remote_status:
-            print( "Remote access is closed.")
-        else:
-            print("Remote access is opened.")
 
         self.compliance = 300.0 #uA
         self.delta_I = 0.5 #uA
@@ -40,7 +34,6 @@ class SimpleCaenPowerSupply(object):
         self.timeout = 100000
         
         self.progress = general.progress(2)
-
 
     def simple_query(self, comm, channel=-1, delay=0.5):
         time.sleep(delay)
@@ -51,22 +44,14 @@ class SimpleCaenPowerSupply(object):
         else:
           command = "$BD:"+xx+",CMD:MON,CH:{},PAR:{}".format(channel, comm)
         output = self.inst.query(command)
-       # print(output)
         output = output.split(",")
-        #print(output)
-        #if channel == -1:
-        output = output[2].split(":")
-        #else:
-        #    output = output[2].split(":")
-        output = output[1]
-        return output
+        output = output[1].split(":")
+        output = output[1].split(";")
+        return output[0]
 
     def simple_set(self, channel, par, value):
         command = "$BD:"+xx+",CMD:SET,CH:{},PAR:{},VAL:{}".format(channel,par,value)
         self.inst.query(command)
-
-    def check_remote_status(self):
-        return self.simple_query("BDCTR")
 
     def channel_switch(self, channel, status):
         self.inst.query("$BD:"+xx+",CMD:SET,CH:{},PAR:{}".format(channel, status))
@@ -74,7 +59,6 @@ class SimpleCaenPowerSupply(object):
     def simple_reset(self, channel):
         self.channel_switch(channel, "OFF")
         VMON = self.simple_query("VMON", channel)
-        #print(VMON)
         while float(VMON) > 0.1:
             VMON = self.simple_query("VMON", channel)
             print("Voltage : {}".format(VMON))
@@ -82,23 +66,18 @@ class SimpleCaenPowerSupply(object):
     def set_voltage(self, channel, value):
         print("\n")
         print("Set channel {} voltage to {}".format(channel, value))
-        #self.simple_set(channel, "VSET", value)
         VMON = self.simple_query("VMON", channel)
         self.simple_set(channel, "VSET", value)
-        print("VMON: {}".format(VMON))
-        #print(self.simple_query("VMON", channel))
-        while abs(float(VMON)- value)>0.5:
-           #time.sleep(5)
+        print("Initial VMON: {}".format(VMON))
+        while abs(float(VMON)- value)>0.2:
             self.progress("Ramping voltage... {}".format(VMON.split()[0]), "Set Voltage:{}".format(value))
             VMON = self.simple_query("VMON", channel)
-            #time.sleep(3)
         print("Finished, the voltage now is {}".format(self.simple_query("VMON", channel)))
         print("\n")
 
     def set_current(self, channel, value):
         print("\n")
         print("Set channel {} current to {} uA".format(channel, value))
-        #self.simple_set(channel, "VSET", value)
         self.simple_set(channel, "ISET", value)
         IMON = self.simple_query("IMON", channel)
         print("IMON: {}".format(IMON))
@@ -183,7 +162,6 @@ class SimpleCaenPowerSupply(object):
         else:
             dI = iValue - self.I_value
             if dI >= self.delta_I:
-                #print(self.I_value)
                 print("Current Warning: Rapid Increase")
                 print( "Shutdown Channel: {}".format(channel))
                 self.close(channel)
