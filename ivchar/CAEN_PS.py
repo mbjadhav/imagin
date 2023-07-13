@@ -87,7 +87,7 @@ class SimpleCaenPowerSupply(object):
         self.simple_set(channel, "VSET", value)
         print("VMON: {}".format(VMON))
         #print(self.simple_query("VMON", channel))
-        while abs(float(VMON)- value)>0.5:
+        while abs(float(VMON)- value)>0.35:
            #time.sleep(5)
             self.progress("Ramping voltage... {}".format(VMON.split()[0]), "Set Voltage:{}".format(value))
             VMON = self.simple_query("VMON", channel)
