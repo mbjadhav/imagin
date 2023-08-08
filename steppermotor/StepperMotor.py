@@ -1,6 +1,11 @@
 import RPi.GPIO as GPIO
 from time import sleep
 
+import argparse
+parser = argparse.ArgumentParser(description = "")
+parser.add_argument('--flyingtime', '-t', help='time in second', action='store', default='10')
+args = parser.parse_args()
+
 '''
 motor pins
 En0 14
@@ -154,7 +159,7 @@ class StepperMotor():
 
 		# Take requested number of steps
 		for x in range(stepsToTake):
-			print("Step " + str(x))
+		    #print("Step " + str(x))
 			GPIO.output(stepPin, GPIO.HIGH)
 			self.CurrentStep += 1
 			sleep(self.Delay)
@@ -174,7 +179,8 @@ stepperHandler.get_ready()
 # Go forwards once
 #stepperHandler.Step(100)
 stepperHandler.step(ENABLE_PIN, STEP_PIN, DIRECTION_PIN, 900, stepperHandler.ANTI_CLOCKWISE)
-sleep(0.5)
+stepperHandler.step(23, 24, 25, 2000, stepperHandler.ANTI_CLOCKWISE)
+sleep(float(args.flyingtime))
 stepperHandler.set_parking()
 # Go backwards once
 #stepperHandler.Step(100, stepperHandler.ANTI_CLOCKWISE)
