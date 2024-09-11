@@ -1,1 +1,0 @@
-EventTime	aTemp	RH	DP	cTemp	mTemp	sLid	sVacuu	sPressure	IsOkay

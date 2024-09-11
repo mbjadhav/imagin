@@ -1,2 +1,0 @@
-EventTime	aTemp	RH	DP	cTemp	mTemp	sLid	sVacuu	sPressure	IsOkay
-20230323114955	18.62	0.04	-66.04	17.22	18.3	1	1	1	1
