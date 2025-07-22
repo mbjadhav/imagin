@@ -124,6 +124,7 @@ try:
     #c.close()
 except (KeyboardInterrupt, SystemExit): #when you press ctrl+c
     print("Killing Thread...")
+    Interlock.powerOFF_peltier()
     time.sleep(0.5e-3)
     SHT85.stop()
 
